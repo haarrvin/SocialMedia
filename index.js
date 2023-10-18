@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
-
+const userRoute = require("./routes/users")
+const authRoute = require("./routes/auth")
 dotenv.config();
 
 const username = encodeURIComponent(process.env.mongo_db_username);
@@ -24,8 +25,16 @@ mongoose.connect(MONGO_URL, {
     console.error("Error connecting to MongoDB:", error);
 });
 
+//middleware
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"));
+
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
+
 const port = process.env.PORT || 8800;
-console.log("dev test");
+
 app.listen(port, () => {
   console.log(`Backend server is running on port ${port}!`);
 });
