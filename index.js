@@ -7,6 +7,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const userRoute = require("./routes/users")
 const authRoute = require("./routes/auth")
+const postRoute = require("./routes/posts")
+
 dotenv.config();
 
 const username = encodeURIComponent(process.env.mongo_db_username);
@@ -32,6 +34,7 @@ app.use(morgan("common"));
 
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/posts", postRoute);
 
 const port = process.env.PORT || 8800;
 
